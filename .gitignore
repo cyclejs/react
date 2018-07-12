@@ -1,0 +1,8 @@
+/.vscode
+/example/dist
+/example/.cache
+/lib
+node_modules
+package-lock.json
+shrinkwrap.yaml
+yarn.lock

@@ -1,0 +1,1 @@
+Run `npm install` in this directory then `npm start` and open your browser at `localhost:1234`.
