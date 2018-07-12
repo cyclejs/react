@@ -10,7 +10,6 @@
 
 ```js
 import xs from 'xstream';
-import {createElement} from 'react';
 import {render} from 'react-dom';
 import {h, makeComponent} from '@cycle/react';
 
@@ -33,7 +32,7 @@ function main(sources) {
 
 const App = makeComponent(main);
 
-render(createElement(App), document.getElementById('app'));
+render(h(App), document.getElementById('app'));
 ```
 
 ## Usage
