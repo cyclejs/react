@@ -6,6 +6,7 @@ import {
   ReactPortal,
   ReactElement,
   createElement,
+  ComponentType,
 } from 'react';
 import {Stream} from 'xstream';
 import {ScopeContext} from './context';
@@ -24,7 +25,9 @@ type State = {
   sink: Stream<ReactElement<any>> | null;
 };
 
-export function makeCycleReactComponent<P = any>(run: RunOnDidMount) {
+export function makeCycleReactComponent<P = any>(
+  run: RunOnDidMount,
+): ComponentType<P> {
   return class CycleReactComponent extends PureComponent<P, State> {
     constructor(props: P) {
       super(props);
@@ -74,7 +77,7 @@ export function makeComponent<
   main: (sources: So) => Si,
   drivers: Drivers<So, Si> = null as any,
   channel: string = 'react',
-) {
+): ComponentType<P> {
   if (drivers) {
     return makeCycleReactComponent<P>(() => {
       const program = setup(main, {
