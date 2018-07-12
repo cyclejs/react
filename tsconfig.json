@@ -7,7 +7,7 @@
     "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,
     "module": "commonjs",
-    "target": "ES2015",
+    "target": "ES5",
     "rootDir": "src/",
     "outDir": "lib/cjs/",
     "skipLibCheck": true,
