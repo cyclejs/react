@@ -43,6 +43,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "npm run compile",
     "compile": "npm run compile-cjs && npm run compile-es6",
     "compile-cjs": "tsc --module commonjs --outDir ./lib/cjs",
     "compile-es6": "echo 'TODO' : tsc --module es6 --outDir ./lib/es6",
