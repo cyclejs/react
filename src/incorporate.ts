@@ -57,6 +57,7 @@ export class Incorporator extends PureComponent<Props, State> {
     if (targetRef) {
       targetProps.ref = targetRef;
     }
+    delete targetProps.sel;
     if (targetProps.children) {
       return createElement(target, targetProps, targetProps.children);
     } else {
