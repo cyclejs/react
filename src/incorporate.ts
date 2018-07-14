@@ -30,15 +30,14 @@ export class Incorporator extends PureComponent<Props, State> {
     super(props);
     this.state = {flip: false};
     this.selector = props.targetProps.selector;
+    delete props.targetProps.selector;
   }
 
   private selector: string | symbol;
   private unsubscribe: any;
 
   public componentDidMount() {
-    const {targetProps, scope} = this.props;
-    const selector = targetProps.selector;
-    this.unsubscribe = scope.subscribe(selector, () => {
+    this.unsubscribe = this.props.scope.subscribe(this.selector, () => {
       this.setState((prev: any) => ({flip: !prev.flip}));
     });
   }
