@@ -2,7 +2,7 @@ import {createElement} from 'react';
 import {incorporate} from './incorporate';
 
 export type PropsExtensions = {
-  selector?: string;
+  selector?: string | symbol;
 };
 
 function createElementSpreading<P>(

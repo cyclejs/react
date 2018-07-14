@@ -19,26 +19,28 @@ export class Scope {
     this.listeners = {};
   }
 
-  public getSelectorHandlers(selector: string) {
-    return this.handlers[selector] || {};
+  public getSelectorHandlers(selector: string | symbol) {
+    return this.handlers[selector as any] || {};
   }
 
-  public getHandler(selector: string, evType: string) {
-    this.handlers[selector] = this.handlers[selector] || {};
-    if (!this.handlers[selector][evType]) {
-      this.handlers[selector][evType] = xs.create<any>();
-      if (this.listeners[selector]) {
-        this.listeners[selector]();
+  public getHandler(selector: string | symbol, evType: string) {
+    const sel: any = selector;
+    this.handlers[sel] = this.handlers[sel] || {};
+    if (!this.handlers[sel][evType]) {
+      this.handlers[sel][evType] = xs.create<any>();
+      if (this.listeners[sel]) {
+        this.listeners[sel]();
       }
     }
-    return this.handlers[selector][evType];
+    return this.handlers[sel][evType];
   }
 
-  public subscribe(selector: string, listener: () => void) {
-    this.listeners[selector] = listener;
+  public subscribe(selector: string | symbol, listener: () => void) {
+    const sel: any = selector;
+    this.listeners[sel] = listener;
     const that = this;
     return function unsubscribe() {
-      delete that.listeners[selector];
+      delete that.listeners[sel];
     };
   }
 }

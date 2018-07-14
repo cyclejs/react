@@ -14,14 +14,15 @@ import {render} from 'react-dom';
 import {h, makeComponent} from '@cycle/react';
 
 function main(sources) {
-  const inc$ = sources.react.select('inc').events('click');
+  const inc = Symbol();
+  const inc$ = sources.react.select(inc).events('click');
 
   const count$ = inc$.fold(count => count + 1, 0);
 
   const vdom$ = count$.map(i =>
     h('div', [
       h('h1', `Counter: ${i}`),
-      h('button', {selector: 'inc'}, 'Increment'),
+      h('button', {selector: inc}, 'Increment'),
     ]),
   );
 
@@ -99,10 +100,10 @@ However, to attach event listeners in model-view-intent style, you must use `h` 
 </details>
 
 <details>
-  <summary><strong>Listening to events in the Intent</strong> (click here)</summary>
+  <summary><strong>Listen to events in the Intent</strong> (click here)</summary>
   <p>
 
-Use hyperscript `h` and pass a `selector` string as a prop, then use that selector in `sources.react.select(_).events(_)`:
+Use hyperscript `h` and pass a `selector` as a prop, then use that selector in `sources.react.select(_).events(_)`:
 
 ```js
 import xs from 'xstream'
@@ -123,6 +124,45 @@ function main(sources) {
   return {
     react: vdom$,
   }
+}
+```
+
+The `selector` can be a string or a symbol. We recommend using symbols to avoid string typos and have safer guarantees when using multiple selectors in your Cycle.js app.
+
+  </p>
+</details>
+
+<details>
+  <summary><strong>Isolate event selection in a scope</strong> (click here)</summary>
+  <p>
+
+This library supports isolation with `@cycle/isolate`, so that you can prevent components from `select`ing into each other even if they use the same string selector. Selectors just need to be unique within an isolation scope.
+
+```js
+import xs from 'xstream'
+import isolate from '@cycle/isolate'
+import {h} from '@cycle/react'
+
+function child(sources) {
+  const elem$ = xs.of(
+    h('h1', {selector: 'foo'}, 'click$ will NOT select this')
+  )
+  return { react: vdom$ }
+}
+
+function parent(sources) {
+  const childSinks = isolate(child, 'childScope')(sources)
+
+  const click$ = sources.react.select('foo').events('click')
+
+  const elem$ = childSinks.react.map(childElem =>
+    h('div', [
+      childElem,
+      h('h1', {selector: 'foo'}, `click$ will select this`),
+    ])
+  )
+
+  return { react: elem$ }
 }
 ```
 

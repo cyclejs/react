@@ -7,14 +7,14 @@ import {ScopeContext} from './context';
 type Sink = Stream<ReactElement<any>>;
 
 export class ReactSource<P = any> {
-  public _selector: string | null;
+  public _selector: string | symbol | null;
   public _scope: Scope;
   public _props$: MemoryStream<P>;
   public _childScopes: Map<string, Scope>;
 
   constructor(
     scope: Scope = new Scope(),
-    selector: string | null = null,
+    selector: string | symbol | null = null,
     props$: MemoryStream<P> = xs.createWithMemory<P>(),
   ) {
     this._scope = scope;
@@ -23,7 +23,7 @@ export class ReactSource<P = any> {
     this._childScopes = new Map();
   }
 
-  public select(selector: string): ReactSource {
+  public select(selector: string | symbol): ReactSource {
     return new ReactSource(this._scope, selector, this._props$);
   }
 

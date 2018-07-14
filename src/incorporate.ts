@@ -32,7 +32,7 @@ export class Incorporator extends PureComponent<Props, State> {
     this.selector = props.targetProps.selector;
   }
 
-  private selector: string;
+  private selector: string | symbol;
   private unsubscribe: any;
 
   public componentDidMount() {
