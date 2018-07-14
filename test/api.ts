@@ -24,7 +24,7 @@ describe('API', function() {
           .periodic(50)
           .take(4)
           .map(() =>
-            h(Findable, {selector: 'ya'}, [
+            h(Findable, {sel: 'ya'}, [
               h('div', {}, [h('h1', {}, 'Hello world')]),
             ]),
           ),
@@ -54,7 +54,7 @@ describe('API', function() {
           .periodic(50)
           .take(4)
           .map(() =>
-            h(Findable, {selector: 'ya'}, [
+            h(Findable, {sel: 'ya'}, [
               h('div', {}, [h('h1', {}, 'Hello world')]),
             ]),
           ),
@@ -80,7 +80,7 @@ describe('API', function() {
           .periodic(50)
           .take(4)
           .map(() =>
-            h(Findable, {selector: 'ya'}, [
+            h(Findable, {sel: 'ya'}, [
               h('div', {}, [h('h1', {}, 'Hello world')]),
             ]),
           ),

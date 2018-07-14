@@ -29,8 +29,8 @@ export class Incorporator extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {flip: false};
-    this.selector = props.targetProps.selector;
-    delete props.targetProps.selector;
+    this.selector = props.targetProps.sel;
+    delete props.targetProps.sel;
   }
 
   private selector: string | symbol;

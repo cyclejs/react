@@ -32,9 +32,7 @@ describe('Isolation', function() {
         });
 
       const vdom$ = xs.of(
-        h('div', {selector: 'foo'}, [
-          h(Inspect, {selector: 'bar', name: 'wrong'}),
-        ]),
+        h('div', {sel: 'foo'}, [h(Inspect, {sel: 'bar', name: 'wrong'})]),
       );
 
       return {
@@ -46,8 +44,8 @@ describe('Isolation', function() {
       const childSinks = isolate(child, 'ISOLATION')(sources);
 
       const vdom$ = childSinks.react.map(child =>
-        h('div', {selector: 'top-most'}, [
-          h(Inspect, {selector: 'bar', name: 'correct'}),
+        h('div', {sel: 'top-most'}, [
+          h(Inspect, {sel: 'bar', name: 'correct'}),
           child,
         ]),
       );
@@ -108,9 +106,7 @@ describe('Isolation', function() {
         });
 
       const vdom$ = xs.of(
-        h('div', {selector: 'foo'}, [
-          h(Inspect, {selector: 'bar', name: 'correct'}),
-        ]),
+        h('div', {sel: 'foo'}, [h(Inspect, {sel: 'bar', name: 'correct'})]),
       );
 
       return {
@@ -130,9 +126,7 @@ describe('Isolation', function() {
         });
 
       const vdom$ = xs.of(
-        h('div', {selector: 'foo'}, [
-          h(Inspect, {selector: 'bar', name: 'wrong'}),
-        ]),
+        h('div', {sel: 'foo'}, [h(Inspect, {sel: 'bar', name: 'wrong'})]),
       );
 
       return {
@@ -147,7 +141,7 @@ describe('Isolation', function() {
       const vdom$ = xs
         .combine(firstSinks.react, secondSinks.react)
         .map(([firstChild, secondChild]: [any, any]) =>
-          h('div', {selector: 'top-most'}, [firstChild, secondChild]),
+          h('div', {sel: 'top-most'}, [firstChild, secondChild]),
         );
 
       return {

@@ -2,7 +2,7 @@ import {createElement} from 'react';
 import {incorporate} from './incorporate';
 
 export type PropsExtensions = {
-  selector?: string | symbol;
+  sel?: string | symbol;
 };
 
 function createElementSpreading<P>(
@@ -21,7 +21,7 @@ function hyperscriptProps<P>(
   type: React.ReactType<P>,
   props: P & PropsExtensions,
 ): React.ReactElement<P> {
-  if (!props.selector) {
+  if (!props.sel) {
     return createElement(type, props);
   } else {
     return createElement(incorporate(type), props);
@@ -40,7 +40,7 @@ function hyperscriptPropsChildren<P>(
   props: P & PropsExtensions,
   children: string | Array<React.ReactElement<any>>,
 ): React.ReactElement<P> {
-  if (!props.selector) {
+  if (!props.sel) {
     return createElementSpreading(type, props, children);
   } else {
     return createElementSpreading(incorporate(type), props, children);

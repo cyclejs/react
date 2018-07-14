@@ -23,7 +23,7 @@ describe('Conversion', function() {
       const inc$ = sources.react.select('button').events('press');
       const count$ = inc$.fold((acc: number, x: any) => acc + 1, 0);
       const vdom$ = count$.map((i: number) =>
-        h(Touchable, {selector: 'button'}, [h('div', [h('h1', {}, '' + i)])]),
+        h(Touchable, {sel: 'button'}, [h('div', [h('h1', {}, '' + i)])]),
       );
       return {react: vdom$};
     }
@@ -58,7 +58,7 @@ describe('Conversion', function() {
       const inc$ = sources.react.select(inc).events('press');
       const count$ = inc$.fold((acc: number, x: any) => acc + 1, 0);
       const vdom$ = count$.map((i: number) =>
-        h(Touchable, {selector: inc}, [h('div', [h('h1', {}, '' + i)])]),
+        h(Touchable, {sel: inc}, [h('div', [h('h1', {}, '' + i)])]),
       );
       return {react: vdom$};
     }
@@ -127,7 +127,7 @@ describe('Conversion', function() {
       });
       const count$ = inc$.fold((acc: number, x: any) => acc + 1, 0);
       const vdom$ = count$.map((i: number) =>
-        h(Touchable, {selector: 'button'}, [h('div', [h('h1', {}, '' + i)])]),
+        h(Touchable, {sel: 'button'}, [h('div', [h('h1', {}, '' + i)])]),
       );
       return {react: vdom$};
     }
