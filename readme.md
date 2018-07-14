@@ -22,7 +22,7 @@ function main(sources) {
   const vdom$ = count$.map(i =>
     h('div', [
       h('h1', `Counter: ${i}`),
-      h('button', {selector: inc}, 'Increment'),
+      h('button', {sel: inc}, 'Increment'),
     ]),
   );
 
@@ -94,7 +94,7 @@ function main(sources) {
 }
 ```
 
-However, to attach event listeners in model-view-intent style, you must use `h` which supports the special prop `selector`. See the next section.
+However, to attach event listeners in model-view-intent style, you must use `h` which supports the special prop `sel`. See the next section.
 
   </p>
 </details>
@@ -103,7 +103,7 @@ However, to attach event listeners in model-view-intent style, you must use `h` 
   <summary><strong>Listen to events in the Intent</strong> (click here)</summary>
   <p>
 
-Use hyperscript `h` and pass a `selector` as a prop, then use that selector in `sources.react.select(_).events(_)`:
+Use hyperscript `h` and pass a **`sel`** as a prop. `sel` means "selector" and it's special like `ref` and `key` are: it does not affect the rendered DOM elements. Then, use that selector in `sources.react.select(_).events(_)`:
 
 ```js
 import xs from 'xstream'
@@ -117,7 +117,7 @@ function main(sources) {
   const vdom$ = count$.map(x =>
     h('div', [
       h('h1', `Counter: ${x}`),
-      h('button', {selector: 'inc'}),
+      h('button', {sel: 'inc'}),
     ])
   )
 
@@ -127,7 +127,7 @@ function main(sources) {
 }
 ```
 
-The `selector` can be a string or a symbol. We recommend using symbols to avoid string typos and have safer guarantees when using multiple selectors in your Cycle.js app.
+The `sel` can be a string or a symbol. We recommend using symbols to avoid string typos and have safer guarantees when using multiple selectors in your Cycle.js app.
 
   </p>
 </details>
@@ -136,7 +136,7 @@ The `selector` can be a string or a symbol. We recommend using symbols to avoid 
   <summary><strong>Isolate event selection in a scope</strong> (click here)</summary>
   <p>
 
-This library supports isolation with `@cycle/isolate`, so that you can prevent components from `select`ing into each other even if they use the same string selector. Selectors just need to be unique within an isolation scope.
+This library supports isolation with `@cycle/isolate`, so that you can prevent components from `select`ing into each other even if they use the same string `sel`. Selectors just need to be unique within an isolation scope.
 
 ```js
 import xs from 'xstream'
@@ -145,7 +145,7 @@ import {h} from '@cycle/react'
 
 function child(sources) {
   const elem$ = xs.of(
-    h('h1', {selector: 'foo'}, 'click$ will NOT select this')
+    h('h1', {sel: 'foo'}, 'click$ will NOT select this')
   )
   return { react: vdom$ }
 }
@@ -158,7 +158,7 @@ function parent(sources) {
   const elem$ = childSinks.react.map(childElem =>
     h('div', [
       childElem,
-      h('h1', {selector: 'foo'}, `click$ will select this`),
+      h('h1', {sel: 'foo'}, `click$ will select this`),
     ])
   )
 
