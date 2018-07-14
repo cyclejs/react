@@ -1,6 +1,6 @@
 {
   "name": "@cycle/react",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Utilities to interoperate between Cycle.js and React",
   "author": "Andre Staltz <contact@staltz.com>",
   "license": "MIT",
