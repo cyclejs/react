@@ -112,6 +112,51 @@ describe('Conversion', function() {
     renderer.create(createElement(RootComponent, {name: 'Alice', age: 30}));
   });
 
+  it('sources.react.props() evolves over time as new props come in', done => {
+    function main(sources: {react: ReactSource}) {
+      let first = false;
+      sources.react
+        .props()
+        .take(1)
+        .addListener({
+          next: props => {
+            assert.strictEqual(props.name, 'Alice');
+            assert.strictEqual(props.age, 30);
+            first = true;
+          },
+        });
+
+      sources.react
+        .props()
+        .drop(1)
+        .take(1)
+        .addListener({
+          next: props => {
+            assert.strictEqual(first, true);
+            assert.strictEqual(props.name, 'alice');
+            assert.strictEqual(props.age, 31);
+            done();
+          },
+        });
+
+      return {
+        react: xs.of(
+          h('section', [h('div', {}, [h('h1', {}, 'Hello world')])]),
+        ),
+      };
+    }
+
+    const RootComponent = makeCycleReactComponent(() => {
+      const source = new ReactSource();
+      const sink = main({react: source}).react;
+      return {source, sink};
+    });
+    const r = renderer.create(
+      createElement(RootComponent, {name: 'Alice', age: 30}),
+    );
+    r.update(createElement(RootComponent, {name: 'alice', age: 31}));
+  });
+
   it('no synchronous race conditions with handler registration', done => {
     function main(sources: {react: ReactSource}) {
       const inc$ = xs.create({

@@ -32,16 +32,13 @@ export function makeCycleReactComponent<P = any>(
     constructor(props: P) {
       super(props);
       this.state = {source: null, sink: null};
-      this._latestProps = props;
     }
 
-    public _latestProps: P;
     public _dispose?: () => void;
 
     public componentDidMount() {
       const {source, sink, dispose} = run();
       source._props$._n(this.props);
-      this._latestProps = this.props;
       this._dispose = dispose;
       this.setState({source, sink});
     }
@@ -56,11 +53,10 @@ export function makeCycleReactComponent<P = any>(
       );
     }
 
-    public componentDidUpdate(props: P) {
+    public componentDidUpdate(prevProps: P) {
       if (!this.state.source) return;
-      if (props === this._latestProps) return;
-      this.state.source._props$._n(props);
-      this._latestProps = props;
+      if (this.props === prevProps) return;
+      this.state.source._props$._n(this.props);
     }
 
     public componentWillUnmount() {
