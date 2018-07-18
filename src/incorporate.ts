@@ -30,7 +30,6 @@ export class Incorporator extends PureComponent<Props, State> {
     super(props);
     this.state = {flip: false};
     this.selector = props.targetProps.sel;
-    delete props.targetProps.sel;
   }
 
   private selector: string | symbol;
@@ -51,13 +50,20 @@ export class Incorporator extends PureComponent<Props, State> {
     return props;
   }
 
-  public render() {
-    const {target, targetProps, targetRef, scope} = this.props;
-    this.incorporateHandlers(targetProps, scope);
+  private materializeTargetProps() {
+    const {targetProps, targetRef, scope} = this.props;
+    let output = {...targetProps};
+    output = this.incorporateHandlers(output, scope);
     if (targetRef) {
-      targetProps.ref = targetRef;
+      output.ref = targetRef;
     }
-    delete targetProps.sel;
+    delete output.sel;
+    return output;
+  }
+
+  public render() {
+    const {target} = this.props;
+    const targetProps = this.materializeTargetProps();
     if (targetProps.children) {
       return createElement(target, targetProps, targetProps.children);
     } else {
@@ -77,7 +83,7 @@ export function incorporate(type: any) {
       forwardRef<any, any>((props, ref) =>
         createElement(ScopeContext.Consumer, null, (scope: Scope) =>
           createElement(Incorporator, {
-            targetProps: {...props},
+            targetProps: props,
             targetRef: ref,
             target: type,
             scope: scope,
