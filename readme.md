@@ -6,6 +6,10 @@
 - Convert a Cycle.js app into a React component
 - Support model-view-intent architecture with isolation scopes
 
+```
+npm install @cycle/react
+```
+
 ## Example
 
 ```js
