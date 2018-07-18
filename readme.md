@@ -40,6 +40,13 @@ const App = makeComponent(main);
 render(h(App), document.getElementById('app'));
 ```
 
+Other examples:
+
+- [Use React inside Cycle.js (CodeSandbox)](https://codesandbox.io/s/4zqply47nw)
+- [Use Cycle.js to write a React component (CodeSandbox)](https://codesandbox.io/s/6xzrv29963)
+
+Read also the [announcement blog post](https://staltz.com/use-react-in-cyclejs-and-vice-versa.html).
+
 ## Usage
 
 <details>
