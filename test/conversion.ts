@@ -112,6 +112,35 @@ describe('Conversion', function() {
     renderer.create(createElement(RootComponent, {name: 'Alice', age: 30}));
   });
 
+  it('output React component routes other sinks to handlers in props', done => {
+    function main(sources: {react: ReactSource}) {
+      return {
+        react: xs.of(
+          h('section', [h('div', {}, [h('h1', {}, 'Hello world')])]),
+        ),
+        something: xs
+          .periodic(200)
+          .mapTo('yellow')
+          .take(1),
+      };
+    }
+
+    const RootComponent = makeCycleReactComponent(() => {
+      const source = new ReactSource();
+      const sinks = main({react: source});
+      const sink = sinks.react;
+      return {source, sink, events: {something: sinks.something}};
+    });
+    renderer.create(
+      createElement(RootComponent, {
+        onSomething: x => {
+          assert.strictEqual(x, 'yellow');
+          done();
+        },
+      }),
+    );
+  });
+
   it('sources.react.props() evolves over time as new props come in', done => {
     function main(sources: {react: ReactSource}) {
       let first = false;

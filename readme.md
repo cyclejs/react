@@ -210,9 +210,9 @@ const CycleApp = makeComponent(main);
 
 Besides `makeComponent`, this library also provides the `makeCycleReactComponent(run)` API which is more powerful and can support more use cases.
 
-It takes one argument, a `run` function which should set up and execute your application, and return three things: source, sink, (optionally:) dispose function.
+It takes one argument, a `run` function which should set up and execute your application, and return three things: source, sink, (optionally:) events object, and dispose function.
 
-- `run: () => {source, sink, dispose}`
+- `run: () => {source, sink, events, dispose}`
 
 As an example usage:
 
@@ -222,10 +222,21 @@ const CycleApp = makeCycleReactComponent(() => {
   const program = setup(main, {...drivers, react: reactDriver});
   const source = program.sources.react;
   const sink = program.sinks.react;
+  const events = {...program.sinks};
+  delete events.react;
+  for (let name in events) if (name in drivers) delete events[name];
   const dispose = program.run();
-  return {source, sink, dispose};
+  return {source, sink, events, dispose};
 });
 ```
+
+**source** is an instance of ReactSource from this library, provided to the `main` so that events can be selected in the intent.
+
+**sink** is the stream of ReactElements your `main` creates, which should be rendered in the component we're creating.
+
+**events** is a *subset* of the sinks, and contains streams that describe events that can be listened by the parent component of the `CycleApp` component. For instance, the stream `events.save` will emit events that the parent component can listen by passing the prop `onSave` to `CycleApp` component. This `events` object is optional, you do not need to create it if this component does not bubble events up to the parent.
+
+**dispose** is a function `() => void` that runs any other disposal logic you want to happen on componentWillUnmount. This is optional.
 
 Use this API to customize how instances of the returned component will use shared resources like non-rendering drivers. See recipes below.
 
@@ -246,6 +257,9 @@ function makeComponent(main, drivers, channel = 'react') {
     const program = setup(main, {...drivers, [channel]: () => new ReactSource()});
     const source = program.sources[channel];
     const sink = program.sinks[channel];
+    const events = {...program.sinks};
+    delete events[channel];
+    for (let name in events) if (name in drivers) delete events[name];
     const dispose = program.run();
     return {source, sink, dispose};
   });
@@ -268,6 +282,8 @@ function makeComponentReusing(main, engine, channel = 'react') {
     const sources = {...engine.sources, [channel]: source};
     const sinks = main(sources);
     const sink = sinks[channel];
+    const events = {...sinks};
+    delete events[channel];
     const dispose = engine.run(sinks);
     return {source, sink, dispose};
   });
