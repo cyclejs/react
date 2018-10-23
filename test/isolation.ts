@@ -1,5 +1,5 @@
 import 'mocha';
-import xs from 'xstream';
+import xs, {Stream} from 'xstream';
 import {createElement, PureComponent} from 'react';
 import isolate from '@cycle/isolate';
 import * as renderer from 'react-test-renderer';
@@ -135,12 +135,13 @@ describe('Isolation', function() {
     }
 
     function parent(sources: {react: ReactSource}) {
-      const firstSinks = isolate(firstborn, 'first')(sources);
-      const secondSinks = isolate(secondborn, 'second')(sources);
+      type Sinks = {react: Stream<React.ReactElement<any>>};
+      const firstSinks: Sinks = isolate(firstborn, 'first')(sources);
+      const secondSinks: Sinks = isolate(secondborn, 'second')(sources);
 
       const vdom$ = xs
         .combine(firstSinks.react, secondSinks.react)
-        .map(([firstChild, secondChild]: [any, any]) =>
+        .map(([firstChild, secondChild]) =>
           h('div', {sel: 'top-most'}, [firstChild, secondChild]),
         );
 

@@ -10,7 +10,13 @@ import {
 } from 'react';
 import {Stream, Subscription} from 'xstream';
 import {ScopeContext} from './context';
-import {Sources, FantasySinks, Drivers, setup} from '@cycle/run';
+import {
+  Sources,
+  Drivers,
+  MatchingDrivers,
+  MatchingMain,
+  setup,
+} from '@cycle/run';
 import {ReactSource} from './ReactSource';
 import {StreamRenderer} from './StreamRenderer';
 
@@ -92,12 +98,12 @@ export function makeCycleReactComponent<P = any>(
 }
 
 export function makeComponent<
-  So extends Sources,
-  Si extends FantasySinks<Si>,
+  D extends MatchingDrivers<D, M>,
+  M extends MatchingMain<D, M>,
   P = any
 >(
-  main: (sources: So) => Si,
-  drivers: Drivers<So, Si> = null as any,
+  main: MatchingMain<D, M>,
+  drivers: MatchingDrivers<D, M> = null as any,
   channel: string = 'react',
 ): ComponentType<P> {
   if (drivers) {
