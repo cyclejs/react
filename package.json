@@ -17,9 +17,9 @@
   "main": "lib/cjs/index.js",
   "typings": "lib/cjs/index.d.ts",
   "types": "lib/cjs/index.d.ts",
-  "dependencies": {
+  "peerDependencies": {
     "@cycle/run": "5.x.x",
-    "react": "16.5.x",
+    "react": "16.x.x",
     "xstream": "11.x.x"
   },
   "devDependencies": {
