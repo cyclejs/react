@@ -19,7 +19,7 @@
   "types": "lib/cjs/index.d.ts",
   "peerDependencies": {
     "@cycle/run": "5.x.x",
-    "react": "16.5.x",
+    "react": "16.x.x",
     "xstream": "11.x.x"
   },
   "devDependencies": {
