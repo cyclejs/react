@@ -23,8 +23,8 @@
     "xstream": "11.x.x"
   },
   "devDependencies": {
-    "@cycle/run": "^5.1.0",
     "@cycle/isolate": "^4.1.0",
+    "@cycle/run": "^5.1.0",
     "@types/mocha": "^2.2.40",
     "@types/node": "^10.5.2",
     "@types/react": "16.4.0",
