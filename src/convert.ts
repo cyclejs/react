@@ -1,22 +1,7 @@
-import {
-  PureComponent,
-  Component,
-  ProviderProps,
-  ReactNodeArray,
-  ReactPortal,
-  ReactElement,
-  createElement,
-  ComponentType,
-} from 'react';
+import {PureComponent, ReactElement, createElement, ComponentType} from 'react';
 import {Stream, Subscription} from 'xstream';
 import {ScopeContext} from './context';
-import {
-  Sources,
-  Drivers,
-  MatchingDrivers,
-  MatchingMain,
-  setup,
-} from '@cycle/run';
+import {MatchingDrivers, MatchingMain, setup} from '@cycle/run';
 import {ReactSource} from './ReactSource';
 import {StreamRenderer} from './StreamRenderer';
 
