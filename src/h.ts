@@ -3,6 +3,7 @@ import {
   ReactElement,
   ReactNode,
   ReactType,
+  ReactHTML,
   Attributes,
 } from 'react';
 import {incorporate} from './incorporate';
@@ -16,7 +17,7 @@ type PropsLike<P> = P & PropsExtensions & Attributes;
 type Children = string | Array<ReactNode>;
 
 function createElementSpreading<P = any>(
-  type: ReactType<P>,
+  type: ReactType<P> | keyof ReactHTML,
   props: PropsLike<P> | null,
   children: Children,
 ): ReactElement<P> {
@@ -28,7 +29,7 @@ function createElementSpreading<P = any>(
 }
 
 function hyperscriptProps<P = any>(
-  type: ReactType<P>,
+  type: ReactType<P> | keyof ReactHTML,
   props: PropsLike<P>,
 ): ReactElement<P> {
   if (!props.sel) {
@@ -39,14 +40,14 @@ function hyperscriptProps<P = any>(
 }
 
 function hyperscriptChildren<P = any>(
-  type: ReactType<P>,
+  type: ReactType<P> | keyof ReactHTML,
   children: Children,
 ): ReactElement<P> {
   return createElementSpreading(type, null, children);
 }
 
 function hyperscriptPropsChildren<P = any>(
-  type: ReactType<P>,
+  type: ReactType<P> | keyof ReactHTML,
   props: PropsLike<P>,
   children: Children,
 ): ReactElement<P> {
@@ -58,7 +59,7 @@ function hyperscriptPropsChildren<P = any>(
 }
 
 export function h<P = any>(
-  type: ReactType<P>,
+  type: ReactType<P> | keyof ReactHTML,
   a?: PropsLike<P> | Children,
   b?: Children,
 ): ReactElement<P> {
