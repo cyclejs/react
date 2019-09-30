@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "react": "16.4.x",
-    "react-dom": "^16.4.1",
-    "parcel": "^1.9.4",
+    "react": "16.9.x",
+    "react-dom": "16.9.x",
+    "parcel": "^1.12.3",
     "xstream": "11.x.x"
   },
   "scripts": {

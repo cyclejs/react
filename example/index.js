@@ -8,8 +8,10 @@ function main(sources) {
 
   const increment$ = xs.periodic(1000).mapTo(x => x + 1);
 
+  const btnSel = Symbol();
+
   const reset$ = sources.react
-    .select('btn')
+    .select(btnSel)
     .events('click')
     .mapTo(() => 0);
 
@@ -20,7 +22,7 @@ function main(sources) {
   const vdom$ = count$.map(i =>
     h('div', [
       h('h1', `Hello ${i} times`),
-      h('button', {selector: 'btn'}, 'Reset'),
+      h('button', {sel: btnSel}, 'Reset'),
     ]),
   );
 
