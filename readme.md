@@ -152,11 +152,9 @@ Use hyperscript `h` and pass a **`sel`** as a prop. Use that selector in `source
 ```js
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-
 import { makeComponent, h } from "@cycle/react";
 
-// react coponent
+// React component
 function Welcome(props) {
   return (
     <div>
@@ -168,18 +166,18 @@ function Welcome(props) {
   );
 }
 
-// cyclejs component
+// Cycle.js component that uses the React component above
 function main(sources) {
   const click$ = sources.react
-    .select("welcomeSel")
-    .events("pressWelcomeButton")
+    .select('welcome')
+    .events('pressWelcomeButton')
     .debug('btn')
     .startWith(null);
 
   const vdom$ = click$.map(click =>
-    h("div", [
-      h(Welcome, { sel: "welcomeSel", name: "madame" }),
-      h("h3", [`button click event stream: ${click}`])
+    h('div', [
+      h(Welcome, { sel: 'welcome', name: 'madame' }),
+      h('h3', [`button click event stream: ${click}`])
     ])
   );
 
@@ -189,8 +187,9 @@ function main(sources) {
 }
 
 const Component = makeComponent(main);
-ReactDOM.render(<Component />, document.getElementById("root"));
+ReactDOM.render(<Component />, document.getElementById('root'));
 ```
+
   </p>
 </details>
 
