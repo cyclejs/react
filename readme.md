@@ -144,6 +144,57 @@ The `sel` can be a string or a symbol. We recommend using symbols to avoid strin
 </details>
 
 <details>
+  <summary><strong>Pass event handlers as props to react components</strong> (click here)</summary>
+  <p>
+
+Use hyperscript `h` and pass a **`sel`** as a prop. Use that selector in `sources.react.select(sel).events(whatever)` to have cyclejs/react pass an `onWhatever` function to the react component:
+
+```js
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+
+import { makeComponent, h } from "@cycle/react";
+
+// react coponent
+function Welcome(props) {
+  return (
+    <div>
+      <h1>Hello, {props.name}</h1>
+      <button onClick={() => props.onPressWelcomeButton({ random: Math.random().toFixed(2) }) } >
+        press me
+      </button>
+    </div>
+  );
+}
+
+// cyclejs component
+function main(sources) {
+  const click$ = sources.react
+    .select("welcomeSel")
+    .events("pressWelcomeButton")
+    .debug('btn')
+    .startWith(null);
+
+  const vdom$ = click$.map(click =>
+    h("div", [
+      h(Welcome, { sel: "welcomeSel", name: "madame" }),
+      h("h3", [`button click event stream: ${click}`])
+    ])
+  );
+
+  return {
+    react: vdom$
+  };
+}
+
+const Component = makeComponent(main);
+ReactDOM.render(<Component />, document.getElementById("root"));
+```
+  </p>
+</details>
+
+<details>
   <summary><strong>Isolate event selection in a scope</strong> (click here)</summary>
   <p>
 
