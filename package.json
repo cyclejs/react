@@ -5,6 +5,7 @@
   "author": "Andre Staltz <contact@staltz.com>",
   "license": "MIT",
   "bugs": "https://github.com/cyclejs/react/issues",
+  "homepage": "https://github.com/cyclejs/react",
   "repository": "https://github.com/cyclejs/react/tree/master",
   "keywords": [
     "react",
