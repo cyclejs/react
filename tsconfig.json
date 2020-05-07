@@ -11,7 +11,9 @@
     "rootDir": "src/",
     "outDir": "lib/cjs/",
     "skipLibCheck": true,
-    "lib": ["dom", "es5", "scripthost", "es2015"]
+    "lib": ["dom", "es5", "scripthost", "es2015"],
+    "jsx": "react",
+    "jsxFactory": "jsxFactory.createElement"
   },
   "files": ["src/index.ts"]
 }
