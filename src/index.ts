@@ -5,3 +5,4 @@ export {ReactSource} from './ReactSource';
 export {h} from './h';
 export {incorporate} from './incorporate';
 export {StreamRenderer} from './StreamRenderer';
+export {default as jsxFactory} from './jsxFactory';
