@@ -376,6 +376,83 @@ See [`@cycle/react-native`](https://github.com/cyclejs/react-native).
   </p>
 </details>
 
+<details>
+  <summary><strong>JSX support</strong> (click here)</summary>
+
+  <p>
+
+### Babel
+
+Add the following to your webpack config:
+
+```js
+module: {
+  rules: [
+    {
+      test: /\.jsx?$/,
+      loader: 'babel-loader',
+      options: {
+        plugins: [
+          ['transform-react-jsx', { pragma: 'jsxFactory.createElement' }],
+        ]
+      }
+    }
+  ]
+},
+```
+
+If you used `create-cycle-app` you may have to eject to modify the config.
+
+### Automatically providing jsxFactory
+
+You can avoid having to import `jsxFactory` in every jsx file by allowing webpack to provide it:
+
+```js
+plugins: [
+  new webpack.ProvidePlugin({
+    jsxFactory: ['@cycle/react', 'jsxFactory']
+  })
+],
+```
+
+### Typescript
+
+Add the following to your `tsconfig.json`:
+
+```js
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "jsxFactory.createElement"
+  }
+}
+```
+
+If webpack is providing `jsxFactory` you will need to add typings to `custom-typings.d.ts`:
+
+```js
+declare var jsxFactory: any;
+```
+
+
+### Usage
+
+```js
+import { jsxFactory } from '@cycle/react';
+function view(state$: Stream<State>): Stream<ReactElement> {
+    return state$.map(({ count }) => (
+        <div>
+            <h2>Counter: {count}</h2>
+            <button sel="add">Add</button>
+            <button sel="subtract">Subtract</button>
+        </div>
+    ));
+}
+```
+
+  </p>
+</details>
+
 ## License
 
 MIT, Copyright Andre 'Staltz' Medeiros 2018
