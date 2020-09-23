@@ -1,7 +1,7 @@
 import xs from 'xstream';
 import {createElement} from 'react';
 import {render} from 'react-dom';
-import {setModules} from '../src/Incorporator'
+import {setModules} from '../src/Modulizer'
 import {h, makeComponent} from '../src/index';
 
 function main(sources) {
@@ -23,17 +23,17 @@ function main(sources) {
   const getRef = el => {
     el.foo='bar';
   }
-  const vdom$ = count$.map(i =>
-    h('div', [
+  const vdom$ = count$.map(i => {
+    return h('div', [
       h('h1', {ref: getRef}, `Hello ${i} times`),
       h('button', {
         sel: btnSel, 
         className: 'clicker', 
         domProps: {foo: 3}, 
         domClass: {hello: true, goodbye: false}
-      }, 'Reset'),
-    ]),
-  );
+      }, 'Reset')
+    ])
+  });
 
   return {
     react: vdom$,

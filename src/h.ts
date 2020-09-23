@@ -7,7 +7,7 @@ import {
   Attributes,
 } from 'react';
 import {incorporate} from './incorporate';
-import { hasModuleProps } from './Incorporator';
+import {hasModuleProps} from './Modulizer';
 
 export type PropsExtensions = {
   sel?: string | symbol;
