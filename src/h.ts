@@ -7,6 +7,7 @@ import {
   Attributes,
 } from 'react';
 import {incorporate} from './incorporate';
+import { hasModuleProps } from './Incorporator';
 
 export type PropsExtensions = {
   sel?: string | symbol;
@@ -32,7 +33,7 @@ function hyperscriptProps<P = any>(
   type: ElementType<P> | keyof ReactHTML,
   props: PropsLike<P>
 ): ReactElement<P> {
-  if (!props.sel) {
+  if (!props.sel && !hasModuleProps(props)) {
     return createElement(type, props);
   } else {
     return createElement(incorporate(type), props);
@@ -51,7 +52,7 @@ function hyperscriptPropsChildren<P = any>(
   props: PropsLike<P>,
   children: Children
 ): ReactElement<P> {
-  if (!props.sel) {
+  if (!props.sel && !hasModuleProps(props)) {
     return createElementSpreading(type, props, children);
   } else {
     return createElementSpreading(incorporate(type), props, children);
