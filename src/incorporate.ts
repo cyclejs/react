@@ -1,19 +1,21 @@
 import {createElement, forwardRef} from 'react';
 import {Scope} from './scope';
 import {ScopeContext} from './context';
-import {Modulizer} from './Modulizer'
+import {default as defaultIncorporator} from './Incorporator'
 
-
+let Incorporator = defaultIncorporator
+export function setIncorporator(f: any) {
+  Incorporator = f
+}
 
 const wrapperComponents: Map<any, React.ComponentType<any>> = new Map();
-const identity = x => x
 export function incorporate(type: any) {
   if (!wrapperComponents.has(type)) {
     wrapperComponents.set(
       type,
       forwardRef<any, any>((props, ref) =>
         createElement(ScopeContext.Consumer, null, (scope: Scope) =>
-          createElement(Modulizer, {
+          createElement(Incorporator, {
             targetProps: props,
             targetRef: ref,
             target: type,

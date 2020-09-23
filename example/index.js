@@ -1,8 +1,7 @@
 import xs from 'xstream';
 import {createElement} from 'react';
 import {render} from 'react-dom';
-import {setModules} from '../src/Modulizer'
-import {h, makeComponent} from '../src/index';
+import {h, makeComponent, useModules} from '../src/index';
 
 function main(sources) {
   const init$ = xs.of(() => 0);
@@ -42,7 +41,7 @@ function main(sources) {
 
 const App = makeComponent(main);
 
-setModules({
+useModules({
   domProps: {
     componentDidUpdate: (element, props) => {
       Object.entries(props).forEach(([key, val]) => {

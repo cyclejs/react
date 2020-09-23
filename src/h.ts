@@ -6,12 +6,23 @@ import {
   ReactHTML,
   Attributes,
 } from 'react';
-import {incorporate} from './incorporate';
-import {hasModuleProps} from './Modulizer';
+import {incorporate, setIncorporator} from './incorporate';
+import {setModules, hasModuleProps, Modulizer} from './Modulizer';
+import Incorporator from './Incorporator';
 
 export type PropsExtensions = {
   sel?: string | symbol;
 };
+
+let shouldIncorporate = props => props.sel
+
+export function useModules(modules: any) {
+  if (!modules || typeof modules !== 'object') return 
+
+  setModules(modules);
+  shouldIncorporate = props => props.sel || hasModuleProps(props)
+  setIncorporator(Modulizer)
+}
 
 type PropsLike<P> = P & PropsExtensions & Attributes;
 
@@ -33,7 +44,7 @@ function hyperscriptProps<P = any>(
   type: ElementType<P> | keyof ReactHTML,
   props: PropsLike<P>
 ): ReactElement<P> {
-  if (!props.sel && !hasModuleProps(props)) {
+  if (!shouldIncorporate(props)) {
     return createElement(type, props);
   } else {
     return createElement(incorporate(type), props);
@@ -52,7 +63,7 @@ function hyperscriptPropsChildren<P = any>(
   props: PropsLike<P>,
   children: Children
 ): ReactElement<P> {
-  if (!props.sel && !hasModuleProps(props)) {
+  if (!shouldIncorporate(props)) {
     return createElementSpreading(type, props, children);
   } else {
     return createElementSpreading(incorporate(type), props, children);
