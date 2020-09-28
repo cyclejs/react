@@ -32,7 +32,15 @@ export default class Incorporator extends PureComponent<Props, State> {
     const handlers = scope.getSelectorHandlers(this.selector);
     for (const evType of Object.keys(handlers)) {
       const onFoo = `on${evType[0].toUpperCase()}${evType.slice(1)}`;
-      props[onFoo] = (ev: any) => handlers[evType]._n(ev);
+      const oldHandler =
+        typeof props[onFoo] === 'function' ? props[onFoo] : undefined;
+      props[onFoo] = (ev: any) => {
+        const res = handlers[evType]._n(ev);
+        if (oldHandler) {
+          return oldHandler(ev);
+        }
+        return res;
+      };
     }
     return props;
   }
