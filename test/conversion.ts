@@ -17,13 +17,13 @@ class Touchable extends PureComponent<any, any> {
   }
 }
 
-describe('Conversion', function() {
-  it('converts an MVI Cycle app into a React component', done => {
+describe('Conversion', function () {
+  it('converts an MVI Cycle app into a React component', (done) => {
     function main(sources: {react: ReactSource}) {
       const inc$ = sources.react.select('button').events('press');
       const count$ = inc$.fold((acc: number, x: any) => acc + 1, 0);
       const vdom$ = count$.map((i: number) =>
-        h(Touchable, {sel: 'button'}, [h('div', [h('h1', {}, '' + i)])]),
+        h(Touchable, {sel: 'button'}, [h('div', [h('h1', {}, '' + i)])])
       );
       return {react: vdom$};
     }
@@ -52,13 +52,13 @@ describe('Conversion', function() {
     setTimeout(check, 150);
   });
 
-  it('allows Symbol selectors', done => {
+  it('allows Symbol selectors', (done) => {
     function main(sources: {react: ReactSource}) {
       const inc = Symbol();
       const inc$ = sources.react.select(inc).events('press');
       const count$ = inc$.fold((acc: number, x: any) => acc + 1, 0);
       const vdom$ = count$.map((i: number) =>
-        h(Touchable, {sel: inc}, [h('div', [h('h1', {}, '' + i)])]),
+        h(Touchable, {sel: inc}, [h('div', [h('h1', {}, '' + i)])])
       );
       return {react: vdom$};
     }
@@ -87,10 +87,10 @@ describe('Conversion', function() {
     setTimeout(check, 150);
   });
 
-  it('output React component routes props to sources.react.props()', done => {
+  it('output React component routes props to sources.react.props()', (done) => {
     function main(sources: {react: ReactSource}) {
       sources.react.props().addListener({
-        next: props => {
+        next: (props) => {
           assert.strictEqual(props.name, 'Alice');
           assert.strictEqual(props.age, 30);
           done();
@@ -99,7 +99,7 @@ describe('Conversion', function() {
 
       return {
         react: xs.of(
-          h('section', [h('div', {}, [h('h1', {}, 'Hello world')])]),
+          h('section', [h('div', {}, [h('h1', {}, 'Hello world')])])
         ),
       };
     }
@@ -112,16 +112,13 @@ describe('Conversion', function() {
     renderer.create(createElement(RootComponent, {name: 'Alice', age: 30}));
   });
 
-  it('output React component routes other sinks to handlers in props', done => {
+  it('output React component routes other sinks to handlers in props', (done) => {
     function main(sources: {react: ReactSource}) {
       return {
         react: xs.of(
-          h('section', [h('div', {}, [h('h1', {}, 'Hello world')])]),
+          h('section', [h('div', {}, [h('h1', {}, 'Hello world')])])
         ),
-        something: xs
-          .periodic(200)
-          .mapTo('yellow')
-          .take(1),
+        something: xs.periodic(200).mapTo('yellow').take(1),
       };
     }
 
@@ -133,22 +130,22 @@ describe('Conversion', function() {
     });
     renderer.create(
       createElement(RootComponent, {
-        onSomething: x => {
+        onSomething: (x) => {
           assert.strictEqual(x, 'yellow');
           done();
         },
-      }),
+      })
     );
   });
 
-  it('sources.react.props() evolves over time as new props come in', done => {
+  it('sources.react.props() evolves over time as new props come in', (done) => {
     function main(sources: {react: ReactSource}) {
       let first = false;
       sources.react
         .props()
         .take(1)
         .addListener({
-          next: props => {
+          next: (props) => {
             assert.strictEqual(props.name, 'Alice');
             assert.strictEqual(props.age, 30);
             first = true;
@@ -160,7 +157,7 @@ describe('Conversion', function() {
         .drop(1)
         .take(1)
         .addListener({
-          next: props => {
+          next: (props) => {
             assert.strictEqual(first, true);
             assert.strictEqual(props.name, 'alice');
             assert.strictEqual(props.age, 31);
@@ -170,7 +167,7 @@ describe('Conversion', function() {
 
       return {
         react: xs.of(
-          h('section', [h('div', {}, [h('h1', {}, 'Hello world')])]),
+          h('section', [h('div', {}, [h('h1', {}, 'Hello world')])])
         ),
       };
     }
@@ -181,12 +178,12 @@ describe('Conversion', function() {
       return {source, sink};
     });
     const r = renderer.create(
-      createElement(RootComponent, {name: 'Alice', age: 30}),
+      createElement(RootComponent, {name: 'Alice', age: 30})
     );
     r.update(createElement(RootComponent, {name: 'alice', age: 31}));
   });
 
-  it('no synchronous race conditions with handler registration', done => {
+  it('no synchronous race conditions with handler registration', (done) => {
     function main(sources: {react: ReactSource}) {
       const inc$ = xs.create({
         start(listener: any) {
@@ -201,7 +198,7 @@ describe('Conversion', function() {
       });
       const count$ = inc$.fold((acc: number, x: any) => acc + 1, 0);
       const vdom$ = count$.map((i: number) =>
-        h(Touchable, {sel: 'button'}, [h('div', [h('h1', {}, '' + i)])]),
+        h(Touchable, {sel: 'button'}, [h('div', [h('h1', {}, '' + i)])])
       );
       return {react: vdom$};
     }

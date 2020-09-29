@@ -15,7 +15,7 @@ export class ReactSource<P = any> {
   constructor(
     scope: Scope = new Scope(),
     selector: string | symbol | null = null,
-    props$: MemoryStream<P> = xs.createWithMemory<P>(),
+    props$: MemoryStream<P> = xs.createWithMemory<P>()
   ) {
     this._scope = scope;
     this._selector = selector;
@@ -48,8 +48,8 @@ export class ReactSource<P = any> {
 
   public isolateSink(sink: Sink, scopeId: string): Sink {
     const isolation = this.getChildScope(scopeId);
-    return sink.map(elem =>
-      createElement(ScopeContext.Provider, {value: isolation}, elem),
+    return sink.map((elem) =>
+      createElement(ScopeContext.Provider, {value: isolation}, elem)
     );
   }
 

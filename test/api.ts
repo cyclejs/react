@@ -16,8 +16,8 @@ class Findable extends PureComponent<any, any> {
   }
 }
 
-describe('API', function() {
-  it('makeCycleReactComponent', function(done) {
+describe('API', function () {
+  it('makeCycleReactComponent', function (done) {
     function main(sources: {react: ReactSource}) {
       return {
         react: xs
@@ -26,7 +26,7 @@ describe('API', function() {
           .map(() =>
             h(Findable, {sel: 'ya'}, [
               h('div', {}, [h('h1', {}, 'Hello world')]),
-            ]),
+            ])
           ),
       };
     }
@@ -47,7 +47,7 @@ describe('API', function() {
     }, 50);
   });
 
-  it('makeComponent from main, drivers, and channel', function(done) {
+  it('makeComponent from main, drivers, and channel', function (done) {
     function main(sources: {foobar: ReactSource}) {
       return {
         foobar: xs
@@ -56,7 +56,7 @@ describe('API', function() {
           .map(() =>
             h(Findable, {sel: 'ya'}, [
               h('div', {}, [h('h1', {}, 'Hello world')]),
-            ]),
+            ])
           ),
       };
     }
@@ -73,7 +73,7 @@ describe('API', function() {
     }, 50);
   });
 
-  it('makeComponent from main (no drivers, no channel)', function(done) {
+  it('makeComponent from main (no drivers, no channel)', function (done) {
     function main(sources: {react: ReactSource}) {
       return {
         react: xs
@@ -82,7 +82,7 @@ describe('API', function() {
           .map(() =>
             h(Findable, {sel: 'ya'}, [
               h('div', {}, [h('h1', {}, 'Hello world')]),
-            ]),
+            ])
           ),
       };
     }

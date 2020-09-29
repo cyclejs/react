@@ -18,6 +18,11 @@
   "main": "lib/cjs/index.js",
   "typings": "lib/cjs/index.d.ts",
   "types": "lib/cjs/index.d.ts",
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": false
+  },
   "peerDependencies": {
     "@cycle/run": "5.x.x",
     "react": "16.x.x",
@@ -30,6 +35,7 @@
     "@types/node": "^10.5.2",
     "@types/react": "16.9.49",
     "mocha": "^6.2.0",
+    "prettier": "^2.1.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-test-renderer": "16.13.1",
@@ -42,10 +48,11 @@
     "access": "public"
   },
   "scripts": {
-    "prepublishOnly": "npm run compile",
+    "format": "prettier --write ./{src,test}/**/*.{ts,tsx,js}",
     "compile": "npm run compile-cjs && npm run compile-es6",
     "compile-cjs": "tsc --module commonjs --outDir ./lib/cjs",
     "compile-es6": "echo 'TODO' : tsc --module es6 --outDir ./lib/es6",
-    "test": "$(npm bin)/mocha test/*.ts --require ts-node/register --recursive"
+    "prepublishOnly": "npm run compile",
+    "test": "mocha test/*.ts --require ts-node/register --recursive"
   }
 }

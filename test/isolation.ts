@@ -18,21 +18,21 @@ class Inspect extends PureComponent<any, any> {
   }
 }
 
-describe('Isolation', function() {
-  it('prevents parent from selecting inside the child', done => {
+describe('Isolation', function () {
+  it('prevents parent from selecting inside the child', (done) => {
     function child(sources: {react: ReactSource}) {
       sources.react
         .select('bar')
         .events('press')
         .addListener({
-          next: name => {
+          next: (name) => {
             // This listener exists just to make sure the child's inspect
             // has an onPress prop
           },
         });
 
       const vdom$ = xs.of(
-        h('div', {sel: 'foo'}, [h(Inspect, {sel: 'bar', name: 'wrong'})]),
+        h('div', {sel: 'foo'}, [h(Inspect, {sel: 'bar', name: 'wrong'})])
       );
 
       return {
@@ -43,11 +43,11 @@ describe('Isolation', function() {
     function parent(sources: {react: ReactSource}) {
       const childSinks = isolate(child, 'ISOLATION')(sources);
 
-      const vdom$ = childSinks.react.map(child =>
+      const vdom$ = childSinks.react.map((child) =>
         h('div', {sel: 'top-most'}, [
           h(Inspect, {sel: 'bar', name: 'correct'}),
           child,
-        ]),
+        ])
       );
 
       return {
@@ -63,7 +63,7 @@ describe('Isolation', function() {
         .select('bar')
         .events('press')
         .addListener({
-          next: name => {
+          next: (name) => {
             assert.strictEqual(name, 'correct');
             assert.strictEqual(times, 0);
             times += 1;
@@ -91,14 +91,14 @@ describe('Isolation', function() {
     }, 300);
   });
 
-  it('prevents component from selecting inside sibling', done => {
+  it('prevents component from selecting inside sibling', (done) => {
     let times = 0;
     function firstborn(sources: {react: ReactSource}) {
       sources.react
         .select('bar')
         .events('press')
         .addListener({
-          next: name => {
+          next: (name) => {
             assert.strictEqual(name, 'correct');
             assert.strictEqual(times, 0);
             times += 1;
@@ -106,7 +106,7 @@ describe('Isolation', function() {
         });
 
       const vdom$ = xs.of(
-        h('div', {sel: 'foo'}, [h(Inspect, {sel: 'bar', name: 'correct'})]),
+        h('div', {sel: 'foo'}, [h(Inspect, {sel: 'bar', name: 'correct'})])
       );
 
       return {
@@ -119,14 +119,14 @@ describe('Isolation', function() {
         .select('bar')
         .events('press')
         .addListener({
-          next: name => {
+          next: (name) => {
             // This listener exists just to make sure the child's inspect
             // has an onPress prop
           },
         });
 
       const vdom$ = xs.of(
-        h('div', {sel: 'foo'}, [h(Inspect, {sel: 'bar', name: 'wrong'})]),
+        h('div', {sel: 'foo'}, [h(Inspect, {sel: 'bar', name: 'wrong'})])
       );
 
       return {
@@ -142,7 +142,7 @@ describe('Isolation', function() {
       const vdom$ = xs
         .combine(firstSinks.react, secondSinks.react)
         .map(([firstChild, secondChild]) =>
-          h('div', {sel: 'top-most'}, [firstChild, secondChild]),
+          h('div', {sel: 'top-most'}, [firstChild, secondChild])
         );
 
       return {
