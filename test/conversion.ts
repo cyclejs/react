@@ -87,6 +87,53 @@ describe('Conversion', function () {
     setTimeout(check, 150);
   });
 
+
+  it('respects handler set on react component', (done) => {
+    let onPressCalled = 0;
+    function main(sources: {react: ReactSource}) {      
+      const inc = Symbol();
+      const inc$ = sources.react.select(inc).events('press');
+      const count$ = inc$.fold((acc: number, x: any) => acc + 1, 0);
+      const vdom$ = count$.map((i: number) =>
+        h(
+          Touchable,
+          {
+            sel: inc,
+            onPress: () => {
+              onPressCalled++;
+            },
+          },
+          [h('div', [h('h1', {}, '' + i)])]
+        )
+      );
+      return {react: vdom$};
+    }
+
+    let turn = 0;
+    const RootComponent = makeCycleReactComponent(() => {
+      const source = new ReactSource();
+      const sink = main({react: source}).react;
+      return {source, sink};
+    });
+    const r = renderer.create(createElement(RootComponent));
+    const root = r.root;
+    const check = () => {
+      const to = root.findByType(Touchable);
+      const view = to.props.children;
+      const text = view.props.children;
+      assert.strictEqual(text.props.children, `${turn}`);
+      to.instance.press();
+      turn++;
+      if (turn === 3) {
+        assert.strictEqual(onPressCalled, 3)
+        done();
+      }
+    };
+    setTimeout(check, 50);
+    setTimeout(check, 100);
+    setTimeout(check, 150);
+  });
+
   it('output React component routes props to sources.react.props()', (done) => {
     function main(sources: {react: ReactSource}) {
       sources.react.props().addListener({
