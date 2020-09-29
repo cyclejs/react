@@ -87,6 +87,7 @@ describe('Conversion', function () {
     setTimeout(check, 150);
   });
 
+
   it('respects handler set on react component', (done) => {
     let onPressCalled = 0;
     function main(sources: {react: ReactSource}) {      
