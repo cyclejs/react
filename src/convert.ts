@@ -20,7 +20,7 @@ type State = {
 };
 
 export function makeCycleReactComponent<P = any>(
-  run: RunOnDidMount,
+  run: RunOnDidMount
 ): ComponentType<P> {
   return class CycleReactComponent extends PureComponent<P, State> {
     constructor(props: P) {
@@ -49,10 +49,10 @@ export function makeCycleReactComponent<P = any>(
         const handlerName = `on${name[0].toUpperCase()}${name.slice(1)}`;
         this._subs.push(
           events[name].subscribe({
-            next: x => {
+            next: (x) => {
               if (this.props[handlerName]) this.props[handlerName](x);
             },
-          }),
+          })
         );
       }
     }
@@ -63,7 +63,7 @@ export function makeCycleReactComponent<P = any>(
       return createElement(
         ScopeContext.Provider,
         {value: source._scope},
-        createElement(StreamRenderer, {stream: sink}),
+        createElement(StreamRenderer, {stream: sink})
       );
     }
 
@@ -89,7 +89,7 @@ export function makeComponent<
 >(
   main: MatchingMain<D, M>,
   drivers: MatchingDrivers<D, M> = null as any,
-  channel: string = 'react',
+  channel: string = 'react'
 ): ComponentType<P> {
   if (drivers) {
     return makeCycleReactComponent<P>(() => {

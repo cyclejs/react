@@ -16,9 +16,9 @@ export function incorporate(type: any) {
             targetRef: ref,
             target: type,
             scope: scope,
-          }),
-        ),
-      ),
+          })
+        )
+      )
     );
   }
   return wrapperComponents.get(type) as React.ComponentType<any>;

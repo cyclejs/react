@@ -19,7 +19,7 @@ type Children = string | Array<ReactNode>;
 function createElementSpreading<P = any>(
   type: ElementType<P> | keyof ReactHTML,
   props: PropsLike<P> | null,
-  children: Children,
+  children: Children
 ): ReactElement<P> {
   if (typeof children === 'string') {
     return createElement(type, props, children);
@@ -30,7 +30,7 @@ function createElementSpreading<P = any>(
 
 function hyperscriptProps<P = any>(
   type: ElementType<P> | keyof ReactHTML,
-  props: PropsLike<P>,
+  props: PropsLike<P>
 ): ReactElement<P> {
   if (!props.sel) {
     return createElement(type, props);
@@ -41,7 +41,7 @@ function hyperscriptProps<P = any>(
 
 function hyperscriptChildren<P = any>(
   type: ElementType<P> | keyof ReactHTML,
-  children: Children,
+  children: Children
 ): ReactElement<P> {
   return createElementSpreading(type, null, children);
 }
@@ -49,7 +49,7 @@ function hyperscriptChildren<P = any>(
 function hyperscriptPropsChildren<P = any>(
   type: ElementType<P> | keyof ReactHTML,
   props: PropsLike<P>,
-  children: Children,
+  children: Children
 ): ReactElement<P> {
   if (!props.sel) {
     return createElementSpreading(type, props, children);
@@ -61,7 +61,7 @@ function hyperscriptPropsChildren<P = any>(
 export function h<P = any>(
   type: ElementType<P> | keyof ReactHTML,
   a?: PropsLike<P> | Children,
-  b?: Children,
+  b?: Children
 ): ReactElement<P> {
   if (a === undefined && b === undefined) {
     return createElement(type, null);
