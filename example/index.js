@@ -1,7 +1,7 @@
 import xs from 'xstream';
 import {createElement} from 'react';
 import {render} from 'react-dom';
-import {h, makeComponent} from '../src/index';
+import {h, makeComponent, useModules} from '../src/index';
 
 function main(sources) {
   const init$ = xs.of(() => 0);
@@ -19,12 +19,20 @@ function main(sources) {
     .merge(init$, increment$, reset$)
     .fold((state, fn) => fn(state));
 
-  const vdom$ = count$.map(i =>
-    h('div', [
-      h('h1', `Hello ${i} times`),
-      h('button', {sel: btnSel}, 'Reset'),
-    ]),
-  );
+  const getRef = el => {
+    el.foo='bar';
+  }
+  const vdom$ = count$.map(i => {
+    return h('div', [
+      h('h1', {ref: getRef}, `Hello ${i} times`),
+      h('button', {
+        sel: btnSel, 
+        className: 'clicker', 
+        domProps: {foo: 3}, 
+        domClass: {hello: true, goodbye: false}
+      }, 'Reset')
+    ])
+  });
 
   return {
     react: vdom$,
@@ -32,5 +40,22 @@ function main(sources) {
 }
 
 const App = makeComponent(main);
+
+useModules({
+  domProps: {
+    componentDidUpdate: (element, props) => {
+      Object.entries(props).forEach(([key, val]) => {
+        element[key] = val;
+      });
+    }
+  },
+  domClass: {
+    componentDidUpdate: (element, props) => {
+      Object.entries(props).forEach(([key, val]) => {
+        val ? element.classList.add(key) : element.classList.remove(key);
+      });
+    }
+  }
+})
 
 render(createElement(App), document.getElementById('app'));
