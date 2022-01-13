@@ -5,7 +5,7 @@ import {MatchingDrivers, MatchingMain, setup} from '@cycle/run';
 import {ReactSource} from './ReactSource';
 import {StreamRenderer} from './StreamRenderer';
 
-type CycleReactEngine = {
+interface CycleReactEngine {
   source: ReactSource;
   sink: Stream<ReactElement<any>>;
   events?: {[name: string]: Stream<any>};
@@ -14,7 +14,7 @@ type CycleReactEngine = {
 
 type RunOnDidMount = () => CycleReactEngine;
 
-type State = {
+interface State {
   source: ReactSource | null;
   sink: Stream<ReactElement<any>> | null;
 };

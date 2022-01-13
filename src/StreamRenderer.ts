@@ -1,9 +1,9 @@
 import {Stream, Subscription} from 'xstream';
 import {PureComponent, ReactElement} from 'react';
 
-type Props = {
+interface Props {
   stream: Stream<ReactElement<any>>;
-};
+}
 
 type State = {
   reactElem: ReactElement<any> | null;

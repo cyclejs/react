@@ -1,14 +1,14 @@
 import {PureComponent, createElement} from 'react';
 import {Scope} from './scope';
 
-type Props = {
+interface Props {
   targetProps: any;
   targetRef: any;
   target: any;
   scope: Scope;
 };
 
-type State = {
+interface State {
   flip: boolean;
 };
 

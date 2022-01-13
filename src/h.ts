@@ -8,7 +8,7 @@ import {
 } from 'react';
 import {incorporate} from './incorporate';
 
-export type PropsExtensions = {
+export interface PropsExtensions {
   sel?: string | symbol;
 };
 

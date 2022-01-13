@@ -1,12 +1,12 @@
 import xs, {Stream} from 'xstream';
 
-export type Handlers = {
+export interface Handlers {
   [selector: string]: {
     [evType: string]: Stream<any>;
   };
 };
 
-export type Listeners = {
+export interface Listeners {
   [selector: string]: () => void;
 };
 
