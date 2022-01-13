@@ -37,6 +37,7 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^10.5.2",
     "@types/react": "16.9.49",
+    "c8": "^7.11.0",
     "mocha": "^6.2.0",
     "prettier": "^2.1.2",
     "react": "16.13.1",
@@ -55,6 +56,7 @@
     "compile": "npm run compile-cjs && npm run compile-es6",
     "compile-cjs": "tsc --module commonjs --outDir ./lib/cjs",
     "compile-es6": "echo 'TODO' : tsc --module es6 --outDir ./lib/es6",
+    "coverage": "c8 --reporter=lcov npm test",
     "prepublishOnly": "npm run compile",
     "test": "mocha test/*.ts --require ts-node/register --recursive"
   }
