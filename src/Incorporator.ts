@@ -43,12 +43,16 @@ export default class Incorporator extends PureComponent<Props> {
 
   private materializeTargetProps() {
     const {targetProps, targetRef, scope} = this.props;
-    let output = {...targetProps};
+    let output = {} as typeof targetProps;
+    for (const key of Object.keys(targetProps)) {
+      if (key !== 'sel') {
+        output[key] = targetProps[key];
+      }
+    }
     output = this.incorporateHandlers(output, scope);
     if (targetRef) {
       output.ref = targetRef;
     }
-    delete output.sel;
     return output;
   }
 
