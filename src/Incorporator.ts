@@ -15,7 +15,7 @@ export default class Incorporator extends PureComponent<Props> {
   }
 
   private selector: string | symbol;
-  private unsubscribe: any;
+  private unsubscribe?: () => void;
 
   public componentDidMount() {
     this.unsubscribe = this.props.scope.subscribe(
@@ -63,6 +63,6 @@ export default class Incorporator extends PureComponent<Props> {
   }
 
   public componentWillUnmount() {
-    this.unsubscribe();
+    this.unsubscribe?.();
   }
 }

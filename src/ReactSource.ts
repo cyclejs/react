@@ -27,7 +27,7 @@ export class ReactSource<P = any> {
     return new ReactSource(this._scope, selector, this._props$);
   }
 
-  public events(eventType: string): Stream<any> {
+  public events<T = any>(eventType: string): Stream<T> {
     if (this._selector === null) {
       return adapt(xs.empty());
     } else {
