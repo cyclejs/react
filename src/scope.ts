@@ -1,46 +1,36 @@
 import xs, {Stream} from 'xstream';
 
-export interface Handlers {
-  [selector: string]: {
-    [evType: string]: Stream<any>;
-  };
-};
-
-export interface Listeners {
-  [selector: string]: () => void;
-};
-
 export class Scope {
-  public handlers: Handlers;
-  public listeners: Listeners;
+  public handlers: Map<string | symbol, Record<string, Stream<any>>>;
+  public listeners: Map<string, () => void>;
 
   constructor() {
-    this.handlers = {};
-    this.listeners = {};
+    this.handlers = new Map();
+    this.listeners = new Map();
   }
 
   public getSelectorHandlers(selector: string | symbol) {
-    return this.handlers[selector as any] || {};
+    return this.handlers.get(selector) ?? {};
   }
 
   public getHandler(selector: string | symbol, evType: string) {
     const sel: any = selector;
-    this.handlers[sel] = this.handlers[sel] || {};
-    if (!this.handlers[sel][evType]) {
-      this.handlers[sel][evType] = xs.create<any>();
-      if (this.listeners[sel]) {
-        this.listeners[sel]();
-      }
+    const selHandlers =
+      this.handlers.get(sel) ?? ({} as Record<string, Stream<any>>);
+    this.handlers.set(sel, selHandlers);
+    if (!selHandlers[evType]) {
+      selHandlers[evType] = xs.create<any>();
+      this.listeners.get(sel)?.();
     }
-    return this.handlers[sel][evType];
+    return selHandlers[evType]!;
   }
 
   public subscribe(selector: string | symbol, listener: () => void) {
     const sel: any = selector;
-    this.listeners[sel] = listener;
+    this.listeners.set(sel, listener);
     const that = this;
     return function unsubscribe() {
-      delete that.listeners[sel];
+      that.listeners.delete(sel);
     };
   }
 }
