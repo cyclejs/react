@@ -10,7 +10,7 @@ import {incorporate} from './incorporate';
 
 export interface PropsExtensions {
   sel?: string | symbol;
-};
+}
 
 type PropsLike<P> = P & PropsExtensions & Attributes;
 
@@ -63,20 +63,20 @@ export function h<P = any>(
   a?: PropsLike<P> | Children,
   b?: Children
 ): ReactElement<P> {
-  if (a === undefined && b === undefined) {
+  if (a === void 0 && b === void 0) {
     return createElement(type, null);
   }
-  if (b === undefined && (typeof a === 'string' || Array.isArray(a))) {
+  if (b === void 0 && (typeof a === 'string' || Array.isArray(a))) {
     return hyperscriptChildren(type, a as Array<ReactNode>);
   }
-  if (b === undefined && typeof a === 'object' && !Array.isArray(a)) {
+  if (b === void 0 && typeof a === 'object' && !Array.isArray(a)) {
     return hyperscriptProps(type, a);
   }
   if (
-    a !== undefined &&
+    a !== void 0 &&
     typeof a !== 'string' &&
     !Array.isArray(a) &&
-    b !== undefined
+    b !== void 0
   ) {
     return hyperscriptPropsChildren(type, a, b);
   } else {
