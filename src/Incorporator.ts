@@ -6,16 +6,11 @@ interface Props {
   targetRef: any;
   target: any;
   scope: Scope;
-};
+}
 
-interface State {
-  flip: boolean;
-};
-
-export default class Incorporator extends PureComponent<Props, State> {
+export default class Incorporator extends PureComponent<Props> {
   constructor(props: Props) {
     super(props);
-    this.state = {flip: false};
     this.selector = props.targetProps.sel;
   }
 
@@ -23,9 +18,10 @@ export default class Incorporator extends PureComponent<Props, State> {
   private unsubscribe: any;
 
   public componentDidMount() {
-    this.unsubscribe = this.props.scope.subscribe(this.selector, () => {
-      this.setState((prev: any) => ({flip: !prev.flip}));
-    });
+    this.unsubscribe = this.props.scope.subscribe(
+      this.selector,
+      this.forceUpdate.bind(this)
+    );
   }
 
   private incorporateHandlers<P>(props: P, scope: Scope): P {
