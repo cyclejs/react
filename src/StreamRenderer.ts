@@ -5,28 +5,26 @@ interface Props {
   stream: Stream<ReactElement<any>>;
 }
 
-type State = {
-  reactElem: ReactElement<any> | null;
-};
-
-export class StreamRenderer extends PureComponent<Props, State> {
+export class StreamRenderer extends PureComponent<Props> {
   private reactElemSub?: Subscription;
+  private elem?: ReactElement<any> | null;
 
   constructor(props: Props) {
     super(props);
-    this.state = {reactElem: null};
+    this.elem = null;
   }
 
   public componentDidMount() {
     this.reactElemSub = this.props.stream.subscribe({
       next: (elem: ReactElement<any>) => {
-        this.setState(() => ({reactElem: elem}));
+        this.elem = elem;
+        this.forceUpdate();
       },
     });
   }
 
   public render() {
-    return this.state.reactElem;
+    return this.elem;
   }
 
   public componentWillUnmount() {
@@ -34,5 +32,6 @@ export class StreamRenderer extends PureComponent<Props, State> {
       this.reactElemSub.unsubscribe();
       this.reactElemSub = undefined;
     }
+    this.elem = null;
   }
 }
