@@ -18,6 +18,9 @@
   "main": "lib/cjs/index.js",
   "typings": "lib/cjs/index.d.ts",
   "types": "lib/cjs/index.d.ts",
+  "files": [
+    "lib/cjs/*"
+  ],
   "prettier": {
     "singleQuote": true,
     "trailingComma": "es5",
